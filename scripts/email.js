@@ -9,7 +9,7 @@
         $to = $("#to");
         $subject = $("#subject");
         $body = $("#body");
-    	//$anchor = $("#open-email-client");
+		$anchor = $("#open-email-client");
         $button = $("#send-email");
 
         //$to.on("blur", updateAnchor);
@@ -22,14 +22,19 @@
 				body = $body.val().trim();
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
-        	var email = "mailto:" + to;
-        	if (subject.length !== 0 || body.length !== 0) {
-        		$anchor.attr("href", $anchor.attr("href") + '?');
-        		if (subject.length !== 0) $anchor.attr("href", $anchor.attr("href") + "subject=" + subject);
-        		if (subject.length !== 0 && body.length !== 0) $anchor.attr("href", $anchor.attr("href") + '&');
-        		if (body.length !== 0) $anchor.attr("href", $anchor.attr("href") + "body=" + body);
-        	}
-        	window.location.href = email;
+        	//var email = "mailto:" + to;
+        	//if (subject.length !== 0 || body.length !== 0) {
+        	//	$anchor.attr("href", $anchor.attr("href") + '?');
+        	//	if (subject.length !== 0) $anchor.attr("href", $anchor.attr("href") + "subject=" + subject);
+        	//	if (subject.length !== 0 && body.length !== 0) $anchor.attr("href", $anchor.attr("href") + '&');
+        	//	if (body.length !== 0) $anchor.attr("href", $anchor.attr("href") + "body=" + body);
+        	//}
+        	var args = {
+        		subject: subject,
+        		body: body,
+        		toRecipients: to
+        	};
+        	cordova.exec(null, null, "EmailComposer", "showEmailComposer", [args]);
         });
     }
 
