@@ -24,17 +24,17 @@
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
         	//var email = "mailto:" + to;
         	//if (subject.length !== 0 || body.length !== 0) {
-        	//	$anchor.attr("href", $anchor.attr("href") + '?');
-        	//	if (subject.length !== 0) $anchor.attr("href", $anchor.attr("href") + "subject=" + subject);
-        	//	if (subject.length !== 0 && body.length !== 0) $anchor.attr("href", $anchor.attr("href") + '&');
-        	//	if (body.length !== 0) $anchor.attr("href", $anchor.attr("href") + "body=" + body);
+        	//	$anchor.prop("href", $anchor.attr("href") + '?');
+        	//	if (subject.length !== 0) $anchor.prop("href", $anchor.prop("href") + "subject=" + subject);
+        	//	if (subject.length !== 0 && body.length !== 0) $anchor.prop("href", $anchor.prop("href") + '&');
+        	//	if (body.length !== 0) $anchor.prop("href", $anchor.prop("href") + "body=" + body);
         	//}
         	var args = {
         		subject: subject,
         		body: body,
         		toRecipients: to
         	};
-        	cordova.exec(null, null, "EmailComposer", "showEmailComposer", [args]);
+        	cordova.exec(function () { console.log("Success"); }, function () { console.log("Fail"); }, "EmailComposer", "showEmailComposer", [args]);
         });
     }
 
