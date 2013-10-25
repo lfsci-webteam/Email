@@ -6,6 +6,7 @@
        	$button;
 
     function init() {
+        console.log("Init");
         $to = $("#to");
         $subject = $("#subject");
         $body = $("#body");
@@ -17,6 +18,7 @@
         //$body.on("blur", updateAnchor);
     	//$anchor.on("click", updateAnchor);
         $button.on("click", function () {
+            console.log("Hit!");
         	var to = $to.val().trim(),
 				subject = $subject.val().trim(),
 				body = $body.val().trim();
