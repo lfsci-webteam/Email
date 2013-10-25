@@ -36,7 +36,9 @@
         		body: body,
         		toRecipients: to
         	};
-        	cordova.exec(function () { console.log("Success"); }, function () { console.log("Fail"); }, "EmailComposer", "showEmailComposer", [args]);
+        	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { console.log("Returned:", arg); },
+				subject, body, [to], [], [], false, [], []);
+        	//cordova.exec(function () { console.log("Success"); }, function () { console.log("Fail"); }, "EmailComposer", "showEmailComposer", [args]);
         });
     }
 
