@@ -23,7 +23,7 @@
 				function onFail(message) {
 					alert('Failed because: ' + message);
 				},
-				{ destinationType : Camera.DestinationType.FILE_URI });
+				{ destinationType : Camera.DestinationType.NATIVE_URI });
         });
 
 		// TODO: Can't attach audio
@@ -46,7 +46,10 @@
 				body = $body.val().trim();
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
-        	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { alert("Returned: " + arg + "\nImage: " + $image); },
+        	if ($image) alert("Image");
+        	if ($recording) alert("Audio");
+        	window.plugins.emailComposer.showEmailComposerWithCallback(
+				function (arg) { },// <- Note: Function never called. See documentation.
 				subject, body, [to], [], [], false, $image ? [$image] : []);
         });
     }
