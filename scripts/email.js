@@ -6,56 +6,60 @@
        	$button;
 
     function init() {
-        console.log("Init");
         $to = $("#to");
         $subject = $("#subject");
         $body = $("#body");
-		$anchor = $("#open-email-client");
-        $button = $("#send-email");
+        $anchor = $("#open-email-client");
+        $audio = $("#audio");
+        $email = $("#send-email");
 
-        //$to.on("blur", updateAnchor);
-        //$subject.on("blur", updateAnchor);
-        //$body.on("blur", updateAnchor);
-    	//$anchor.on("click", updateAnchor);
-        $button.on("click", function () {
-            console.log("Hit!");
+        $audio.on("click", function () {
+        	switch ($audio.text()) {
+        		case "Record Audio":
+        			$audio.text("Stop").button("refresh");
+        			recordAudio();
+        			break;
+        		case "Stop":
+        			$audio.text("Record Audio").button("refresh");
+        			$recording.stopRecord();
+        			break;
+        	}
+        });
+
+        $email.on("click", function () {
         	var to = $to.val().trim(),
 				subject = $subject.val().trim(),
 				body = $body.val().trim();
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
-        	//var email = "mailto:" + to;
-        	//if (subject.length !== 0 || body.length !== 0) {
-        	//	$anchor.prop("href", $anchor.attr("href") + '?');
-        	//	if (subject.length !== 0) $anchor.prop("href", $anchor.prop("href") + "subject=" + subject);
-        	//	if (subject.length !== 0 && body.length !== 0) $anchor.prop("href", $anchor.prop("href") + '&');
-        	//	if (body.length !== 0) $anchor.prop("href", $anchor.prop("href") + "body=" + body);
-        	//}
-        	var args = {
-        		subject: subject,
-        		body: body,
-        		toRecipients: to
-        	};
         	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { console.log("Returned:", arg); },
-				subject, body, [to], [], [], false, [], []);
-        	//cordova.exec(function () { console.log("Success"); }, function () { console.log("Fail"); }, "EmailComposer", "showEmailComposer", [args]);
+				subject, body, [to], [], [], false, $recording ? [$recording] : []);
         });
     }
 
     $(document).on("deviceready", init);
 
-    function updateAnchor() {
-    	var to = $to.val().trim(),
-    		subject = $subject.val().trim(),
-    		body = $body.val().trim();
+    function deviceAudioExtension() {
+    	switch(device.platform) {
+    		case "Android":
+    		case "BlackBerry":
+    			return "amr";
+    		case "iOS":
+    			return "wav";
+    		case "Tizen":
+    			throw "Tizen";// No support for Tizen
+    		default:
+    			return "wav";
+    	}
+    }
 
-    	if (to.length === 0) return false;
-    	$anchor.attr("href", "mailto:" + to);
-    	if (subject.length === 0 && body.length === 0) return true;
-    	$anchor.attr("href", $anchor.attr("href") + '?');
-    	if (subject.length !== 0) $anchor.attr("href", $anchor.attr("href") + "subject=" + subject);
-    	if (subject.length !== 0 && body.length !== 0) $anchor.attr("href", $anchor.attr("href") + '&');
-    	if (body.length !== 0) $anchor.attr("href", $anchor.attr("href") + "body=" + body);
+    function recordAudio() {
+    	if (typeof recordAudio.take == 'undefined') recordAudio.take = 1;// 'Static' variable
+    	var filename = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
+    	$recording = new Media(filename,
+			function () {
+				recordAudio.take++;
+			}, function (error) { alert("Recording failed."); });
     }
 
 })(window);
