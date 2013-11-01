@@ -23,7 +23,7 @@
 				function onFail(message) {
 					alert('Failed because: ' + message);
 				},
-				{ destinationType : Camera.DestinationType.NATIVE_URI });
+				{ destinationType : navigator.camera.destinationType.FILE_URI });
         });
 
 		// TODO: Can't attach audio
@@ -46,11 +46,12 @@
 				body = $body.val().trim();
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
-        	if ($image) alert("Image");
-        	if ($recording) alert("Audio");
+        	var attachments = [];
+        	if ($image) attachments.push($image);
+        	if ($audioFile) attachments.push($audioFile);
         	window.plugins.emailComposer.showEmailComposerWithCallback(
 				function (arg) { },// <- Note: Function never called. See documentation.
-				subject, body, [to], [], [], false, $image ? [$image] : []);
+				subject, body, [to], [], [], false, attachments);
         });
     }
 
@@ -72,8 +73,8 @@
 
     function recordAudio() {
     	if (typeof recordAudio.take == 'undefined') recordAudio.take = 1;// 'Static' variable
-    	var filename = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
-    	$recording = new Media(filename,
+    	$audioFile = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
+    	$recording = new Media($audioFile,
 			function () {
 				recordAudio.take++;
 			}, function (error) { alert("Recording failed."); });
