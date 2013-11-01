@@ -47,7 +47,7 @@
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
         	var attachments = [];
-        	if ($image) attachments.push($image);
+        	//if ($image) attachments.push($image);
         	if ($audioFile) attachments.push($audioFile);
         	window.plugins.emailComposer.showEmailComposerWithCallback(
 				function (arg) { },// <- Note: Function never called. See documentation.
