@@ -14,7 +14,7 @@
         $audio = $("#audio");
         $email = $("#send-email");
 
-
+		// TODO: Picture isn't working either
         $picture.on("click", function () {
         	navigator.camera.getPicture(
 				function onSuccess(imageData) {
@@ -45,8 +45,8 @@
 				body = $body.val().trim();
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
-        	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { console.log("Returned:", arg); },
-				subject, body, [to], [], [], false, [], $image ? [$image] : []);
+        	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { alert("Returned: " + arg + "\nImage: " + $image); },
+				subject, body, [to], [], [], false, $image ? [$image] : []);
         });
     }
 
