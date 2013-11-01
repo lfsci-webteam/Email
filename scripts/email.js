@@ -46,7 +46,7 @@
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
         	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { console.log("Returned:", arg); },
-				subject, body, [to], [], [], false, $image ? [$image] : []);
+				subject, body, [to], [], [], false, [], $image ? [$image] : []);
         });
     }
 
