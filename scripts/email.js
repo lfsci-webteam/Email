@@ -18,12 +18,15 @@
         $picture.on("click", function () {
         	navigator.camera.getPicture(
 				function onSuccess(imageData) {
-					$image = imageData;
+					$image = "data:image/jpeg;base64," + imageData;
 				},
 				function onFail(message) {
 					alert('Failed because: ' + message);
 				},
-				{ destinationType : navigator.camera.destinationType.FILE_URI });
+				{
+					destinationType: navigator.camera.destinationType.FILE_URI,
+					encodingType: Camera.EncodingType.JPEG,
+				});
         });
 
 		// TODO: Can't attach audio
@@ -78,6 +81,7 @@
 			function () {
 				recordAudio.take++;
 			}, function (error) { alert("Recording failed."); });
+    	$audioFile = $audioFile;
     }
 
 })(window);
