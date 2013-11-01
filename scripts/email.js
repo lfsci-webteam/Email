@@ -19,10 +19,11 @@
         	navigator.camera.getPicture(
 				function onSuccess(imageData) {
 					$image = imageData;
-        		},
+				},
 				function onFail(message) {
-        			alert('Failed because: ' + message);
-        		});
+					alert('Failed because: ' + message);
+				},
+				{ destinationType : Camera.DestinationType.FILE_URI });
         });
 
 		// TODO: Can't attach audio
