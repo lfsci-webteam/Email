@@ -22,6 +22,8 @@
     -->
     <feature name="http://api.phonegap.com/1.0/device" />
 	<feature name="http://api.phonegap.com/1.0/media" />
+	<feature name="http://api.phonegap.com/1.0/camera" />
+	<feature name="http://api.phonegap.com/1.0/capture" />
 
     <!--
         If you do not want any permissions to be added to your app, add the
@@ -53,7 +55,6 @@
         A list of available plugins are available at https://build.phonegap.com/docs/plugins
     -->
 	<gap:plugin name="com.phonegap.plugins.emailcomposer" />
-	<!--<gap:plugin name="org.apache.cordova.media" />-->
 
     <!-- Define app icon for each platform. -->
     <!--<icon src="icon.png" />

@@ -10,17 +10,30 @@
         $subject = $("#subject");
         $body = $("#body");
         $anchor = $("#open-email-client");
+        $picture = $("#picture");
         $audio = $("#audio");
         $email = $("#send-email");
 
+
+        $picture.on("click", function () {
+        	navigator.camera.getPicture(
+				function onSuccess(imageData) {
+					$image = imageData;
+        		},
+				function onFail(message) {
+        			alert('Failed because: ' + message);
+        		});
+        });
+
+		// TODO: Can't attach audio
         $audio.on("click", function () {
         	switch ($audio.text()) {
-        		case "Record Audio":
+        		case "Record":
         			$audio.text("Stop").button("refresh");
         			recordAudio();
         			break;
         		case "Stop":
-        			$audio.text("Record Audio").button("refresh");
+        			$audio.text("Record").button("refresh");
         			$recording.stopRecord();
         			break;
         	}
@@ -33,7 +46,7 @@
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
         	window.plugins.emailComposer.showEmailComposerWithCallback(function (arg) { console.log("Returned:", arg); },
-				subject, body, [to], [], [], false, $recording ? [$recording] : []);
+				subject, body, [to], [], [], false, $image ? [$image] : []);
         });
     }
 
