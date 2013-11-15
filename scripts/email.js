@@ -88,7 +88,7 @@
     	});
     }
 
-    function createFileEntry(imageURI) { window.resolveLocalFileSystemURI(imageURI, copyPhotoToTemp, fail); }
+    function createFileEntry(imageURI) { window.resolveLocalFileSystemURI(imageURI, copyPhotoToPersistent, fail); }
 
     function copyPhotoToTemp(fileEntry) {
     	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSys) {
@@ -124,7 +124,7 @@
 
     function onTempCopySuccess(entry) { alert($image = entry.fullPath); }
 
-    function onPersistentCopySuccess(entry) { }
+    function onPersistentCopySuccess(entry) { alert($image = entry.fullPath); }
 
     function fail(e) {
     	var msg = '';
