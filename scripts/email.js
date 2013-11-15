@@ -53,7 +53,6 @@
         	window.plugins.emailComposer.showEmailComposerWithCallback(
 				function (arg) { },// <- Note: Function never called. See documentation.
 				subject, body, [to], [], [], false, attachments);
-			alert("Success");
         });
     }
 
@@ -126,4 +125,18 @@
     function onTempCopySuccess(entry) { alert($image = entry.fullPath); }
 
     function onPersistentCopySuccess(entry) { }
+
+    function fail(e) {
+    	var msg = '';
+    	switch (e.code) {
+    		case FileError.QUOTA_EXCEEDED_ERR: msg = 'QUOTA_EXCEEDED_ERR'; break;
+    		case FileError.NOT_FOUND_ERR: msg = 'NOT_FOUND_ERR'; break;
+    		case FileError.SECURITY_ERR: msg = 'SECURITY_ERR'; break;
+    		case FileError.INVALID_MODIFICATION_ERR: msg = 'INVALID_MODIFICATION_ERR'; break;
+    		case FileError.INVALID_STATE_ERR: msg = 'INVALID_STATE_ERR'; break;
+    		case FileError.ENCODING_ERR: msg = "ENCODING_ERR: The URL is malformed"; break;
+    		default: msg = e.code; break;
+    	};
+    	alert('Error: ' + msg);
+    }
 })(window);
