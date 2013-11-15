@@ -18,15 +18,8 @@
 		// TODO: Picture isn't working either
         $picture.on("click", function () {
         	navigator.camera.getPicture(
-				function onSuccess(imageURI) {
-					alert(imageURI);
-					getRootDirectory(function (root) { alert($image = imageURI.replace(root, '')); });
-					$image = imageURI.substr(8);
-					alert($image);
-				},
-				function onFail(message) {
-					alert('Failed because: ' + message);
-				},
+				function onSuccess(imageURI) { createFileEntry(imageURI); },
+				function onFail(message) { console.log('Failed because: ' + message); },
 				{
 					destinationType: Camera.DestinationType.FILE_URI,
 					encodingType: Camera.EncodingType.JPEG,
@@ -97,4 +90,41 @@
     	});
     }
 
+    function createFileEntry(imageURI) { window.resolveLocalFileSystemURI(imageURI, copyPhotoToTemp, fail); }
+
+    function copyPhotoToTemp(fileEntry) {
+    	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSys) {
+    		fileSys.root.getDirectory("photos", { create: true, exclusive: false }, function (dir) {
+    			var fileName = "temp.jpg";
+
+    			// Check if the file exists first. If so, delete it.
+    			dir.getFile(fileName, { create: false }, function (toDelete) {
+    				toDelete.remove(function () {
+    					fileEntry.copyTo(dir, fileName, onTempCopySuccess, fail);
+    				}, function () { alert('Failed to delete existing file'); });
+    			},
+				function (e) { fileEntry.copyTo(dir, fileName, onTempCopySuccess, fail); });
+    		}, fail);
+    	}, fail);
+    }
+
+    function copyPhotoToPersistent(fileEntry) {
+    	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSys) {
+    		fileSys.root.getDirectory("photos", { create: true, exclusive: false }, function (dir) {
+
+    			var fileName = localStorage['fileDestinationURL'];
+    			// Check if the file exists first. If so, delete it.
+    			dir.getFile(fileName, { create: false }, function (toDelete) {
+    				toDelete.remove(function () {
+    					fileEntry.copyTo(dir, fileName, onPersistentCopySuccess, fail);
+    				}, function () { alert('Failed to delete existing file'); });
+    			},
+				function (e) { fileEntry.copyTo(dir, fileName, onPersistentCopySuccess, fail); });
+    		}, fail);
+    	}, fail);
+    }
+
+    function onTempCopySuccess(entry) { $image = entry.fullPath; }
+
+    function onPersistentCopySuccess(entry) { }
 })(window);
