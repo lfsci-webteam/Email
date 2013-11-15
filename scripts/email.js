@@ -17,14 +17,14 @@
 		// TODO: Picture isn't working either
         $picture.on("click", function () {
         	navigator.camera.getPicture(
-				function onSuccess(imageData) {
-					$image = "data:image/jpeg;base64," + imageData;
+				function onSuccess(imageURI) {
+					$image = imageURI;
 				},
 				function onFail(message) {
 					alert('Failed because: ' + message);
 				},
 				{
-					destinationType: navigator.camera.destinationType.FILE_URI,
+					destinationType: Camera.DestinationType.FILE_URI,
 					encodingType: Camera.EncodingType.JPEG,
 				});
         });
@@ -50,7 +50,7 @@
 
         	if (to.length === 0 && subject.length === 0 && body.length === 0) return false;
         	var attachments = [];
-        	//if ($image) attachments.push($image);
+        	if ($image) attachments.push($image);
         	if ($audioFile) attachments.push($audioFile);
         	window.plugins.emailComposer.showEmailComposerWithCallback(
 				function (arg) { },// <- Note: Function never called. See documentation.
