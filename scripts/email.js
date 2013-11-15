@@ -51,7 +51,7 @@
 
         	var attachments = [];
         	if ($image) attachments.push($image);
-        	if ($audioFile) attachments.push($audioFile);
+        	//if ($audioFile) attachments.push($audioFile);
         	alert("Sending email with " + attachments.length + " attachments.");
 
         	window.plugins.emailComposer.showEmailComposerWithCallback(
