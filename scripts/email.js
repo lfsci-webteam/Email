@@ -18,8 +18,8 @@
         $picture.on("click", function () {
         	navigator.camera.getPicture(
 				function onSuccess(imageURI) {
-					$image = imageURI;
-					alert(imageURI);
+					$image = getRootDirectory(function (root) { return imageURI.replace(root, ''); });
+					alert($image);
 				},
 				function onFail(message) {
 					alert('Failed because: ' + message);
@@ -83,6 +83,13 @@
 				recordAudio.take++;
 			}, function (error) { alert("Recording failed."); });
     	$audioFile = $audioFile;
+    }
+
+	// Helper function for getting file paths
+    function getRootDirectory(callback) {
+    	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSys) {
+    		callback(fileSys.root.fullPath);
+    	});
     }
 
 })(window);
