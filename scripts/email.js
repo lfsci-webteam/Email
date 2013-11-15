@@ -77,9 +77,8 @@
     	if (typeof recordAudio.take == 'undefined') recordAudio.take = 1;// 'Static' variable
     	$audioFile = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
     	$recording = new Media($audioFile,
-			function () {
-				recordAudio.take++;
-			}, function (error) { alert("Recording failed."); });
+			function () { recordAudio.take++; },
+			function (error) { alert("Recording failed."); });
     	$audioFile = $audioFile;
     }
 
@@ -101,7 +100,7 @@
     			dir.getFile(fileName, { create: false }, function (toDelete) {
     				toDelete.remove(function () {
     					fileEntry.copyTo(dir, fileName, onTempCopySuccess, fail);
-    				}, function () { alert('Failed to delete existing file'); });
+    				}, function () { console.log('Failed to delete existing file'); });
     			},
 				function (e) { fileEntry.copyTo(dir, fileName, onTempCopySuccess, fail); });
     		}, fail);
@@ -124,7 +123,7 @@
     	}, fail);
     }
 
-    function onTempCopySuccess(entry) { $image = entry.fullPath; }
+    function onTempCopySuccess(entry) { alert($image = entry.fullPath); }
 
     function onPersistentCopySuccess(entry) { }
 })(window);
