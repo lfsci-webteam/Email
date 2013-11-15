@@ -19,6 +19,7 @@
         	navigator.camera.getPicture(
 				function onSuccess(imageURI) {
 					$image = imageURI;
+					alert(imageURI);
 				},
 				function onFail(message) {
 					alert('Failed because: ' + message);
