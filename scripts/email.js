@@ -19,8 +19,10 @@
         $picture.on("click", function () {
         	navigator.camera.getPicture(
 				function onSuccess(imageURI) {
+					alert(imageURI);
 					getRootDirectory(function (root) { alert($image = imageURI.replace(root, '')); });
 					$image = imageURI.substr(8);
+					alert($image);
 				},
 				function onFail(message) {
 					alert('Failed because: ' + message);
