@@ -11,9 +11,10 @@
         $body = $("#body");
         $anchor = $("#open-email-client");
         $picture = $("#picture");
-        $audio = $("#audio");
+        $record = $("#record");
         $email = $("#send-email");
-        $image = $audioFile = null;
+        $media = $("#audio");
+        $image = $audio = null;
 
         $picture.on("click", function () {
         	navigator.camera.getPicture(
@@ -25,15 +26,14 @@
 				});
         });
 
-		// TODO: Can't attach audio
-        $audio.on("click", function () {
-        	switch ($audio.text()) {
+        $record.on("click", function () {
+        	switch ($record.text()) {
         		case "Record":
-        			$audio.text("Stop").button("refresh");
+        			$record.text("Stop").button("refresh");
         			recordAudio();
         			break;
         		case "Stop":
-        			$audio.text("Record").button("refresh");
+        			$record.text("Record").button("refresh");
         			$recording.stopRecord();
         			break;
         	}
@@ -50,10 +50,10 @@
         		while ($image.substr(index, 2) == '//') index++;
         		attachments.push($image.substr(index));
         	}
-        	if ($audioFile) {
-        		var index = $audioFile.indexOf(':/') + 1;
-        		while ($audioFile.substr(index, 2) == '//') index++;
-        		attachments.push($audioFile.substr(index));
+        	if ($audio) {
+        		var index = $audio.indexOf(':/') + 1;
+        		while ($audio.substr(index, 2) == '//') index++;
+        		attachments.push($audio.substr(index));
         	}
         	alert("Sending email with " + attachments.length + " attachments.");
 
@@ -81,11 +81,12 @@
 
     function recordAudio() {
     	if (typeof recordAudio.take == 'undefined') recordAudio.take = 1;// 'Static' variable
-    	$audioFile = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
-    	$recording = new Media($audioFile,
+    	$audio = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
+    	$recording = new Media($audio,
 			function () { recordAudio.take++; },
-			function (error) { alert("Recording failed."); });
-    	$audioFile = $audioFile;
+			function (error) { fail(error); });
+    	$recording.startRecord();
+    	alert($audio);
     }
 
 	// Helper function for getting file paths
@@ -131,9 +132,7 @@
 
     function onTempCopySuccess(entry) {
     	// Append the time so we're guaranteed to get the latest version
-    	alert(entry.fullPath);
     	document.getElementById('photo').src = ($image = entry.fullPath) + '?' + new Date().getTime();
-    	alert($photo.src);
     }
 
     function onPersistentCopySuccess(entry) { alert($image = entry.fullPath); }
