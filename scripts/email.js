@@ -11,7 +11,6 @@
         $body = $("#body");
         $anchor = $("#open-email-client");
         $picture = $("#picture");
-        $photo = $("#photo");
         $audio = $("#audio");
         $email = $("#send-email");
         $image = $audioFile = null;
@@ -126,7 +125,7 @@
     function onTempCopySuccess(entry) {
     	// Append the time so we're guaranteed to get the latest version
     	alert(entry.fullPath);
-    	$photo.src = ($image = entry.fullPath) + '?' + new Date().getTime();
+    	document.getElementById('photo').src = ($image = entry.fullPath) + '?' + new Date().getTime();
     	alert($photo.src);
     }
 
