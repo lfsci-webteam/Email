@@ -89,7 +89,7 @@
     	});
     }
 
-    function createFileEntry(imageURI) { window.resolveLocalFileSystemURI(imageURI, copyPhotoToPersistent, fail); }
+    function createFileEntry(imageURI) { window.resolveLocalFileSystemURI(imageURI, copyPhotoToTemp, fail); }
 
     function copyPhotoToTemp(fileEntry) {
     	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSys) {
@@ -118,14 +118,16 @@
     					fileEntry.copyTo(dir, fileName, onPersistentCopySuccess, fail);
     				}, function () { alert('Failed to delete existing file'); });
     			},
-				function (e) { fileEntry.copyTo(dir, fileName, onTempCopySuccess, fail); });
+				function (e) { fileEntry.copyTo(dir, fileName, onPersistentCopySuccess, fail); });
     		}, fail);
     	}, fail);
     }
 
     function onTempCopySuccess(entry) {
     	// Append the time so we're guaranteed to get the latest version
+    	alert(entry.fullPath);
     	$photo.src = ($image = entry.fullPath) + '?' + new Date().getTime();
+    	alert('Exit');
     }
 
     function onPersistentCopySuccess(entry) { alert($image = entry.fullPath); }
