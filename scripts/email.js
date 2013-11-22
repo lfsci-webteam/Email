@@ -15,7 +15,6 @@
         $email = $("#send-email");
         $image = $audioFile = null;
 
-		// TODO: Picture isn't working either
         $picture.on("click", function () {
         	navigator.camera.getPicture(
 				function onSuccess(imageURI) { createFileEntry(imageURI); },
@@ -51,7 +50,11 @@
         		while ($image.substr(index, 2) == '//') index++;
         		attachments.push($image.substr(index));
         	}
-        	//if ($audioFile) attachments.push($audioFile);
+        	if ($audioFile) {
+        		var index = $audioFile.indexOf(':/') + 1;
+        		while ($audioFile.substr(index, 2) == '//') index++;
+        		attachments.push($audioFile.substr(index));
+        	}
         	alert("Sending email with " + attachments.length + " attachments.");
 
         	window.plugins.emailComposer.showEmailComposerWithCallback(
