@@ -118,16 +118,14 @@
     					fileEntry.copyTo(dir, fileName, onPersistentCopySuccess, fail);
     				}, function () { alert('Failed to delete existing file'); });
     			},
-				function (e) { fileEntry.copyTo(dir, fileName, onPersistentCopySuccess, fail); });
+				function (e) { fileEntry.copyTo(dir, fileName, onTempCopySuccess, fail); });
     		}, fail);
     	}, fail);
     }
 
     function onTempCopySuccess(entry) {
     	// Append the time so we're guaranteed to get the latest version
-    	alert($image = entry.fullPath);
-    	$photo.src = $image + '?' + new Date().getTime();
-    	alert("Exit");
+    	$photo.src = ($image = entry.fullPath) + '?' + new Date().getTime();
     }
 
     function onPersistentCopySuccess(entry) { alert($image = entry.fullPath); }
