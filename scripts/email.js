@@ -46,7 +46,11 @@
 				body = $body.val().trim();
 
         	var attachments = [];
-        	if ($image) attachments.push($image);
+        	if ($image) {
+        		var index = $image.indexOf(':/') + 1;
+        		while ($image.substr(index, 2) == '//') index++;
+        		attachments.push($image.substr(index));
+        	}
         	//if ($audioFile) attachments.push($audioFile);
         	alert("Sending email with " + attachments.length + " attachments.");
 
