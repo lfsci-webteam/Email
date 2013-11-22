@@ -27,16 +27,9 @@
         });
 
         $record.on("click", function () {
-        	switch ($record.text()) {
-        		case "Record":
-        			$record.text("Stop").button("refresh");
-        			recordAudio();
-        			break;
-        		case "Stop":
-        			$record.text("Record").button("refresh");
-        			$recording.stopRecord();
-        			break;
-        	}
+        	navigator.device.capture.captureAudio(function (files) {
+        		$audio = files[0].fullPath;
+        	}, fail, { limit: 1, duration: 150 });
         });
 
         $email.on("click", function () {
@@ -77,16 +70,6 @@
     		default:
     			return "wav";
     	}
-    }
-
-    function recordAudio() {
-    	if (typeof recordAudio.take == 'undefined') recordAudio.take = 1;// 'Static' variable
-    	$audio = "VoiceRecording" + recordAudio.take + "." + deviceAudioExtension();
-    	$recording = new Media($audio,
-			function () { recordAudio.take++; },
-			function (error) { fail(error); });
-    	$recording.startRecord();
-    	alert($audio);
     }
 
 	// Helper function for getting file paths
