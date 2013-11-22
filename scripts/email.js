@@ -125,8 +125,9 @@
 
     function onTempCopySuccess(entry) {
     	// Append the time so we're guaranteed to get the latest version
-    	$photo.src = ($image = entry.fullPath) + '?' + new Date().getTime();
-    	alert($image);
+    	alert($image = entry.fullPath);
+    	$photo.src = $image + '?' + new Date().getTime();
+    	alert("Exit");
     }
 
     function onPersistentCopySuccess(entry) { alert($image = entry.fullPath); }
