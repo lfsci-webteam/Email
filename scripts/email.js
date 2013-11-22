@@ -11,6 +11,7 @@
         $body = $("#body");
         $anchor = $("#open-email-client");
         $picture = $("#picture");
+        $photo = $("#photo");
         $audio = $("#audio");
         $email = $("#send-email");
         $image = $audioFile = null;
@@ -122,7 +123,10 @@
     	}, fail);
     }
 
-    function onTempCopySuccess(entry) { alert($image = entry.fullPath); }
+    function onTempCopySuccess(entry) {
+    	// Append the time so we're guaranteed to get the latest version
+    	$photo.src = ($image = entry.fullPath) + '?' + new Date().getTime();
+    }
 
     function onPersistentCopySuccess(entry) { alert($image = entry.fullPath); }
 
